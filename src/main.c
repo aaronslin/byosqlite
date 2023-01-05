@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "common.h"
+#include "chunk.h"
+
 typedef struct {
   char* buffer;
   size_t buffer_length;
@@ -158,34 +161,36 @@ void execute_statement(Statement* statement) {
 }
 
 int main(int argc, char* argv[]) {
-  InputBuffer* input_buffer = new_input_buffer();
+  Chunk chunk;
+  initChunk(&chunk);
+  printChunk(&chunk);
 
-  while (true) {
-    print_prompt();
-    read_input(input_buffer);
-    Statement* statement = new_statement();
-    parse_command(input_buffer, statement);
-    execute_statement(statement);
-  }
+  writeChunk(&chunk, 'a');
+  writeChunk(&chunk, 'o');
+  printChunk(&chunk);
+
+  writeChunk(&chunk, 'e');
+  writeChunk(&chunk, 'u');
+  printChunk(&chunk);
+
+  writeChunk(&chunk, 'a');
+  writeChunk(&chunk, 'o');
+  writeChunk(&chunk, 'e');
+  writeChunk(&chunk, 'u');
+  writeChunk(&chunk, 'i');
+  printChunk(&chunk);
+
+  freeChunk(&chunk);
 }
+//int main(int argc, char* argv[]) {
+//  InputBuffer* input_buffer = new_input_buffer();
+//
+//  while (true) {
+//    print_prompt();
+//    read_input(input_buffer);
+//    Statement* statement = new_statement();
+//    parse_command(input_buffer, statement);
+//    execute_statement(statement);
+//  }
+//}
 
-
-/*
-
-Task 1:
- Write a REPL that exits on `.exit` and throws "unrecognized command" on everything else.
-
-Notes:
- - malloc
- - sizeof
- - typedef
- - struct
- - a->b
- - free
-
-Notes (part 2):
- - `getline` allocates ceil(|bytes_read|) memory for the buffer, and tells you what it allocated in `buffer_length`.
-   If the input commands are ["hi", "aoeuasdf", "hi"], and you try to access `input_buffer->buffer[bytes_read + k]`,
-     - for k=0, this succeeds on all inputs because of the null terminator
-     - for k=1, this runs but is undefined behavior on the 1st and 2nd inputs, and leads to a segfault on the 3rd.
-*/
