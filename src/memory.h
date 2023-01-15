@@ -1,3 +1,6 @@
+#ifndef byosqlite_memory_h
+#define byosqlite_memory_h
+
 #include "common.h"
 
 #define GROW_CAPACITY(capacity) \
@@ -11,3 +14,5 @@
   reallocate(ptr, sizeof(type) * oldSize, 0)
 
 void* reallocate(void* ptr, size_t oldSize, size_t newSize);
+
+#endif
