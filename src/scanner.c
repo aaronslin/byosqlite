@@ -47,10 +47,14 @@ char advance(Scanner* scanner) {
 
 Token makeIdentifier(Scanner* scanner) {
   while(isAlpha(peek(scanner))) advance(scanner);
+
   if (isKeyword(scanner, ".exit", 5)) return makeToken(scanner, TOKEN_EXIT);
   if (isKeyword(scanner, ".tables", 7)) return makeToken(scanner, TOKEN_TABLES);
+
   if (isKeyword(scanner, "insert", 6)) return makeToken(scanner, TOKEN_INSERT);
+  if (isKeyword(scanner, "into", 4)) return makeToken(scanner, TOKEN_INTO);
   if (isKeyword(scanner, "select", 6)) return makeToken(scanner, TOKEN_SELECT);
+  if (isKeyword(scanner, "values", 6)) return makeToken(scanner, TOKEN_VALUES);
   
   return makeToken(scanner, TOKEN_IDENTIFIER);
 }
@@ -66,9 +70,12 @@ Status runScanner(Scanner* scanner, Chunk* chunk) {
     
     if (isAlpha(c) || c == '.') {
       writeChunk(chunk, makeIdentifier(scanner));
-    } else if (c == ' ') {
-      skipWhitespace(scanner);
-    } else {
+    } 
+    else if (c == ' ') { skipWhitespace(scanner); } 
+    else if (c == ',') { writeChunk(chunk, makeToken(scanner, TOKEN_COMMA)); }
+    else if (c == '(') { writeChunk(chunk, makeToken(scanner, TOKEN_PAREN_OPEN)); }
+    else if (c == ')') { writeChunk(chunk, makeToken(scanner, TOKEN_PAREN_CLOSE)); }
+    else {
       return STATUS_SCAN_UNRECOGNIZED_CHARACTER;
     }
   }

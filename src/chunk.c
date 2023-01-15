@@ -9,7 +9,6 @@ void initChunk(Chunk* chunk) {
 
 void writeChunk(Chunk* chunk, Token token) {
   if (chunk->count + 1 > chunk->capacity) {
-    // (alin) is this supposed to be an int
     int newCapacity = GROW_CAPACITY(chunk->capacity);
     chunk->token = GROW_ARRAY(Token, chunk->token, chunk->capacity, newCapacity);
     chunk->capacity = newCapacity;

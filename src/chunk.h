@@ -15,15 +15,21 @@ typedef struct {
 } InputBuffer;
 
 typedef enum {
-  TOKEN_EOF,
   // Meta commands
   TOKEN_EXIT,
   TOKEN_TABLES,
-  // Commands
+  // Keywords
   TOKEN_INSERT,
+  TOKEN_INTO,
   TOKEN_SELECT,
+  TOKEN_VALUES,
   // Punctuation
-  TOKEN_IDENTIFIER
+  TOKEN_COMMA,
+  TOKEN_IDENTIFIER,
+  TOKEN_PAREN_OPEN,
+  TOKEN_PAREN_CLOSE,
+  // EOF
+  TOKEN_EOF
 } TokenType;
 
 // Represents a token such as "SELECT" or "("
@@ -54,12 +60,3 @@ void freeInputBuffer(InputBuffer* inputBuffer);
 void readInputBuffer(InputBuffer* inputBuffer);
 
 #endif
-
-
-/* 
-SQL Grammar:
-
-FROM 
-
-
-*/ 

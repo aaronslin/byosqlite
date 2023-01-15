@@ -62,3 +62,7 @@ Notes:
       (e.g. to identify `//`). The main differences are:
       - Instead of storing the lexemes by value, we store pointers to the start and ends of them.
       - Instead of storing keywords in a hashmap, we use a DFA to disambuguate them.
+
+## Ch. 3: Insert and print tables
+
+ - See [this](https://github.com/AlecStrong/sqlite-bnf/blob/master/sqlite.bnf) for a BNF of SQLite syntax.
