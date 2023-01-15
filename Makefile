@@ -6,6 +6,22 @@ SRCS = $(wildcard src/*.c)
 OBJS = $(SRCS:src/%.c=build/objects/%.o)
 OUTPUT := build/main
 
+define HEADER_FILE_CONTENT
+#ifndef byosqlite_$*_h
+#define byosqlite_$*_h
+
+#include "common.h"
+
+#endif
+endef
+
+define SOURCE_FILE_CONTENT
+#include "$*.h"
+endef
+
+export HEADER_FILE_CONTENT
+export SOURCE_FILE_CONTENT
+
 # If you just run `make`, the first target automatically runs.
 hello-world:
 	echo "hello world"
@@ -21,6 +37,15 @@ build: $(OBJS)
 build/objects/%.o: src/%.c
 	@echo "[$@] Compiling source $^ to $@"
 	@gcc -o $@ -c $^
+
+src/%:
+	@echo "[$@] Creating $@.c and $@.h"
+	@test -f $@.h \
+		&& echo "\t$@.h already exists" \
+		|| echo "$$HEADER_FILE_CONTENT" > $@.h
+	@test -f $@.c \
+		&& echo "\t$@.c already exists" \
+		|| echo "$$SOURCE_FILE_CONTENT" > $@.c
 
 print:
 	@echo "Sources: $(SRCS)"
